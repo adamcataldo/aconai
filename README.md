@@ -6,4 +6,4 @@ A repository for the code powering [aconai.dev](https://aconai.dev/).
 
 MIT License
 
-![Aconai Logo](logo.png "Aconai Logo")
+![Aconai Logo](Logo.PNG "Aconai Logo")
