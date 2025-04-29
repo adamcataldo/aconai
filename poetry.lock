@@ -153,6 +153,21 @@ tests = ["cloudpickle", "hypothesis", "mypy (>=1.11.1)", "pympler", "pytest (>=4
 tests-mypy = ["mypy (>=1.11.1)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "avro"
+version = "1.12.0"
+description = "Avro is a serialization and RPC framework."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "avro-1.12.0-py2.py3-none-any.whl", hash = "sha256:9a255c72e1837341dd4f6ff57b2b6f68c0f0cecdef62dd04962e10fd33bec05b"},
+    {file = "avro-1.12.0.tar.gz", hash = "sha256:cad9c53b23ceed699c7af6bddced42e2c572fd6b408c257a7d4fc4e8cf2e2d6b"},
+]
+
+[package.extras]
+snappy = ["python-snappy"]
+zstandard = ["zstandard"]
+
+[[package]]
 name = "babel"
 version = "2.17.0"
 description = "Internationalization utilities"
@@ -3242,4 +3257,4 @@ repair = ["scipy (>=1.6.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "2277ede363ca54f7aa4c31f5accb19bdb890762157ec0ffa0d1be6949a375291"
+content-hash = "ae3112e3d268dfb1398cc53668e5c9c8acd37eed337ca6954c4822e5a432910f"
