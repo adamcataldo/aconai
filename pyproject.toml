@@ -13,8 +13,9 @@ jupyter = "^1.1.1"
 matplotlib = "^3.10.1"
 numpy = "^2.2.5"
 pandas = "^2.2.3"
-yfinance = "^0.2.56"
+yfinance = "^0.2.57"
 avro = "^1.12.0"
+curl-cffi = "^0.10.0"
 
 
 [build-system]

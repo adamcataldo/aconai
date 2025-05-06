@@ -1,12 +1,14 @@
 import json
-from typing import Iterator, final
+from typing import Generic, Iterator, TypeVar, final
 from aconai.pipelines.data_registry import DataRegistry
-from avro.schema import Schema, parse
+from avro.schema import parse
 from avro.datafile import DataFileReader, DataFileWriter
 from avro.io import DatumReader, DatumWriter
 from abc import ABC, abstractmethod
 
-class DataProvider(ABC):
+T = TypeVar("T")
+
+class DataProvider(ABC, Generic[T]):
     """
     A base class for data input providers. This class is used to cache retrieved
     data input in a first-party file system, so that subsequent calls for the
@@ -19,7 +21,7 @@ class DataProvider(ABC):
         self.registry = registry
 
     @final
-    def cached_read(self) -> Iterator[object]:
+    def cached_read(self) -> Iterator[T]:
         """
         Reads the data from the data provider. If the data is already stored
         in the cache, it will be read from there. Otherwise, it will be 
@@ -38,7 +40,7 @@ class DataProvider(ABC):
             writer.close()
             self.registry.mark_written(self.registry_key(), file_name)       
         reader = DataFileReader(open(file_name, "rb"), DatumReader())
-        return reader
+        return map(lambda x: self.record_as_type(x), reader)
     
     def registry_key(self) -> str:
         """
@@ -83,3 +85,11 @@ class DataProvider(ABC):
         to return the records of the data provider.
         """
         pass
+
+    def record_as_type(self, record: object) -> T:
+        """
+        Converts a record to the type T. By default, this just returns the
+        record. Subclasses can override this to have custom types returend by
+        cached_read() method.
+        """
+        return record
