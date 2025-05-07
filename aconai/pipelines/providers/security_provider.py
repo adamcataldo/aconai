@@ -10,10 +10,7 @@ from curl_cffi import requests
 
 class SecurityProvider(DataProvider[pd.DataFrame]):
     """
-    A base class for security data input providers. This class is used to cache
-    retrieved data input in a first-party file system, so that subsequent calls
-    for the same data with the same parameters will be served from the local
-    cache.
+    A class for downloading security price data.
     """
 
     def __init__(
