@@ -1,5 +1,5 @@
 import json
-from typing import Generic, Iterator, TypeVar, final
+from typing import Generic, Iterable, TypeVar, final
 from aconai.pipelines.data_registry import DataRegistry
 from avro.schema import parse
 from avro.datafile import DataFileReader, DataFileWriter
@@ -21,10 +21,10 @@ class DataProvider(ABC, Generic[T]):
         self.registry = registry
 
     @final
-    def cached_read(self) -> Iterator[T]:
+    def cached_read(self) -> Iterable[T]:
         """
         Reads the data from the data provider. If the data is already stored
-        in the cache, it will be read from there. Otherwise, it will be 
+        in the cache, it will be read from there. Otherwise, it will bgit e 
         retrieved by delegating to the get_records() method, and stroring the
         data in the cache.
         """
@@ -40,7 +40,10 @@ class DataProvider(ABC, Generic[T]):
             writer.close()
             self.registry.mark_written(self.registry_key(), file_name)       
         reader = DataFileReader(open(file_name, "rb"), DatumReader())
-        return map(lambda x: self.record_as_type(x), reader)
+        def f(x: object) -> T:
+            assert isinstance(x, dict)
+            return self.record_as_type(x)
+        return map(f, reader)
     
     def registry_key(self) -> str:
         """
@@ -78,7 +81,7 @@ class DataProvider(ABC, Generic[T]):
         pass
     
     @abstractmethod
-    def get_records(self) -> Iterator[dict]:
+    def get_records(self) -> Iterable[dict]:
         """
         Returns the records of the data provider. This is used to validate the
         data input before it is cached. This should be overridden by subclasses
@@ -86,10 +89,10 @@ class DataProvider(ABC, Generic[T]):
         """
         pass
 
-    def record_as_type(self, record: object) -> T:
+    @abstractmethod
+    def record_as_type(self, record: dict) -> T:
         """
-        Converts a record to the type T. By default, this just returns the
-        record. Subclasses can override this to have custom types returend by
-        cached_read() method.
+        Converts a record to the type T. Subclasses should override this to have
+        custom types returend by cached_read() method.
         """
-        return record
+        pass
