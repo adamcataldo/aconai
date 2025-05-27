@@ -21,6 +21,9 @@ class TestableDataProvider(DataProvider[object]):
     def get_records(self):
         return [{"test": 1}, {"test": 2}]
     
+    def record_as_type(self, record: dict):
+        return record
+    
 class BaseTestDataProvider(unittest.TestCase):
     def setUp(self):
         self.data_dir = "/tmp/data_cache"
