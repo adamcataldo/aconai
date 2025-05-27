@@ -1,6 +1,6 @@
 import datetime as dt
 from dateutil.relativedelta import relativedelta
-from typing import Iterator, List
+from typing import Iterable, List
 import numpy as np
 import pandas as pd
 import requests
@@ -192,7 +192,7 @@ class TidalProvider(DataProvider[pd.DataFrame]):
         }).to_dict(orient="records")
         return {"extremes": extremes}    
 
-    def get_records(self) -> Iterator[dict]:
+    def get_records(self) -> Iterable[dict]:
         """
         Retrieves the records from NOAA.
         """

@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Iterator
+from typing import Iterable
 
 import pandas as pd
 from aconai.pipelines.data_provider import DataProvider
@@ -99,7 +99,7 @@ class SecurityProvider(DataProvider[pd.DataFrame]):
             ]
         }
     
-    def get_records(self) -> Iterator[dict]:
+    def get_records(self) -> Iterable[dict]:
         """
         Retrieves the records from yfinance.
         """
